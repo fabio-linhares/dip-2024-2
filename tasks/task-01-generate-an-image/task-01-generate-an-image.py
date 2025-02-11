@@ -17,7 +17,19 @@ def generate_image(seed, width, height, mean, std):
         image (numpy.ndarray): The generated image.
     """
     ### START CODE HERE ###
-    ### TODO
+
+    # Set the random seed for reproducibility
+    np.random.seed(seed)
+
+    # Generate random values from a normal distribution
+    image = np.random.normal(mean, std, (height, width))
+
+    # Clip values to be between 0 and 255
+    image = np.clip(image, 0, 255)
+
+    # Convert to uint8 (8-bit unsigned integer) for grayscale image
+    image = image.astype(np.uint8)
+    
     ### END CODE HERE ###
 
     return image

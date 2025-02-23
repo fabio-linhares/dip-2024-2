@@ -53,4 +53,4 @@ def load_image_from_url(url, **kwargs):
         
     return image
 
-#load_image_from_url()
+load_image_from_url()

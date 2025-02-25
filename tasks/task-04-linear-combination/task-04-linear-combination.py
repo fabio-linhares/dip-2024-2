@@ -20,7 +20,30 @@ def linear_combination(i1: np.ndarray, i2: np.ndarray, a1: float, a2: float) -> 
         raise ValueError("Input images must have the same dimensions.")
 
     ### START CODE HERE ###
-    ### TODO
+    # Converte as imagens para float32 para evitar overflow
+    i1_float = i1.astype(np.float32)
+    i2_float = i2.astype(np.float32)
+
+    # Combinação linear pixel a pixel
+    result_float = a1 * i1_float + a2 * i2_float
+
+    # Limitação dos pixels combinados dentro do intervalo válido [0, 255]
+    result = np.clip(result_float, 0, 255)
+
+    # Neste ponto, o returno deveria ser a conversão da imagem resultante, algo
+    # como: return result.astype(i1.dtype). Contudo, o 'return None' subsequente, 
+    # localizado fora desse bloco, irá inevitavelmente sobrescrever qualquer 
+    # valor retornado. Apesar da implementação acima, o 'return None', faz com que
+    # a função retorne 'None' em todas as circunstâncias. Para corrigir isso, o
+    # 'return None' fora do bloco do código alterável deveria ser removido ou,
+    # preferencialmente, substituído pelo 'return' correto da imagem resultante
+    # da combinação linear das imagens. Essa substituição garante que a função
+    # retorne o valor calculado e cumpra seu propósito original.
+    
+    #return result.astype(i1.dtype)
+
+    # Para contornar isso vou imprimir o array resultante
+    print(result.astype(i1.dtype))
     ### END CODE HERE ###
 
     return None

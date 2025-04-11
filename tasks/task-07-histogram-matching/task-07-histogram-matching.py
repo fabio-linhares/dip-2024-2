@@ -29,5 +29,36 @@ import numpy as np
 import scikitimage as ski
 
 def match_histograms_rgb(source_img: np.ndarray, reference_img: np.ndarray) -> np.ndarray:
-    # Your implementation here
-    pass
+    # Criar array para a imagem resultante
+    matched_img = np.zeros_like(source_img)
+    
+    # Processar cada canal (R, G, B) separadamente
+    for i in range(3):  # Para cada canal de cor
+        # Extrair o canal atual
+        source_channel = source_img[:, :, i]
+        reference_channel = reference_img[:, :, i]
+        
+        # Calcular histogramas normalizados e CDFs
+        hist_source, bins = np.histogram(source_channel.flatten(), 256, [0, 256], density=True)
+        hist_reference, _ = np.histogram(reference_channel.flatten(), 256, [0, 256], density=True)
+        
+        # Calcular CDFs (Cumulative Distribution Functions)
+        cdf_source = hist_source.cumsum()
+        cdf_source = 255 * cdf_source / cdf_source[-1]  # Normalizar para 0-255
+        
+        cdf_reference = hist_reference.cumsum()
+        cdf_reference = 255 * cdf_reference / cdf_reference[-1]  # Normalizar para 0-255
+        
+        # Criar mapeamento usando interpolação
+        # Para cada valor na CDF da fonte, encontre o valor correspondente na CDF de referência
+        interp_values = np.interp(cdf_source, cdf_reference, np.arange(256))
+        
+        # Mapear valores de pixels do canal fonte
+        lookup_table = np.uint8(interp_values)
+        matched_channel = lookup_table[source_channel]
+        
+        # Armazenar o canal processado na imagem resultante
+        matched_img[:, :, i] = matched_channel
+    
+    return matched_img.astype(np.uint8)
+    # pass

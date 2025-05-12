@@ -492,7 +492,7 @@ def demo_texture_segmentation(save_path):
 
 def run_all_demos():
     """Com as imagens do scikit-image"""
-    results_dir = '/home/zerocopia/Ufal/dip-2024-2/aula-060525/resultados'
+    results_dir = 'resultados/'
     os.makedirs(results_dir, exist_ok=True)
     
     demos = [
